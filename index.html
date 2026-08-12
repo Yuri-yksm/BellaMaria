@@ -1,243 +1,572 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bella Maria - Raspadinha Virtual</title>
-  <style>
-    :root {
-      --primary-color: #d4a373;
-      --secondary-color: #fefae0;
-      --accent-color: #faedcd;
-      --text-color: #333;
-      --bg-color: #fff9f5;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bella Maria — Raspadinha de Prêmios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --plum-950:#241220;
+    --plum-900:#341c30;
+    --plum-800:#4a2740;
+    --blush:#f2d9d0;
+    --ivory:#fbf3ea;
+    --gold:#c9a24b;
+    --gold-light:#e8cf8f;
+    --gold-dark:#96772f;
+    --rose:#c9707a;
+    --ink:#2a1c22;
+    --success:#7f9e6f;
+    --danger:#c1544a;
+  }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
+  *{box-sizing:border-box;}
 
-    .container {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-      border: 1px solid #f3e9e1;
-    }
+  html,body{margin:0;padding:0;}
 
-    h1 {
-      color: var(--primary-color);
-      font-size: 26px;
-      margin-bottom: 5px;
-      font-family: 'Georgia', serif;
-    }
+  body{
+    min-height:100vh;
+    font-family:'Manrope', sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1100px 600px at 15% -10%, #5a2f4f 0%, transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, #3a1e33 0%, transparent 55%),
+      var(--plum-950);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px 16px;
+    overflow-x:hidden;
+  }
 
-    p.subtitle {
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 25px;
-    }
+  /* faint ornamental texture */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(201,162,75,0.06) 0, transparent 3px),
+      radial-gradient(circle at 80% 60%, rgba(201,162,75,0.05) 0, transparent 3px),
+      radial-gradient(circle at 50% 85%, rgba(201,162,75,0.05) 0, transparent 3px);
+    background-size: 140px 140px;
+    pointer-events:none;
+  }
 
-    .input-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
+  .card{
+    position:relative;
+    width:100%;
+    max-width:400px;
+    background:linear-gradient(180deg, #fffaf4 0%, var(--ivory) 100%);
+    border-radius:22px;
+    padding:36px 28px 30px;
+    box-shadow:
+      0 30px 60px -20px rgba(0,0,0,0.55),
+      0 0 0 1px rgba(201,162,75,0.25);
+    text-align:center;
+  }
 
-    label {
-      font-size: 13px;
-      color: #555;
-      font-weight: bold;
-    }
+  .card::before{
+    content:"";
+    position:absolute;
+    inset:10px;
+    border:1px solid rgba(201,162,75,0.35);
+    border-radius:15px;
+    pointer-events:none;
+  }
 
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--gold-dark);
+    font-weight:700;
+    margin-bottom:6px;
+  }
 
-    .btn {
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 14px;
-      width: 100%;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+  h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:38px;
+    line-height:1;
+    margin:0 0 4px;
+    color:var(--plum-900);
+    letter-spacing:.01em;
+  }
 
-    .btn:hover {
-      background-color: #bc8a5f;
-    }
+  p.subtitle{
+    font-size:13.5px;
+    color:#7a6a71;
+    margin:0 0 26px;
+    font-style:italic;
+    font-family:'Cormorant Garamond', serif;
+    font-size:17px;
+  }
 
-    .card-box {
-      margin-top: 20px;
-      padding: 20px;
-      background: var(--accent-color);
-      border-radius: 12px;
-      border: 2px dashed var(--primary-color);
-      display: none;
-      animation: fadeIn 0.8s ease-in-out;
-    }
+  .input-group{
+    margin-bottom:18px;
+    text-align:left;
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  label{
+    display:block;
+    font-size:11.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:#8a7a80;
+    font-weight:700;
+    margin-bottom:7px;
+  }
 
-    .prize-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #4a3e3d;
-      margin-bottom: 10px;
-    }
+  input[type="text"]{
+    width:100%;
+    padding:13px 14px;
+    border:1.5px solid #e6d9cf;
+    border-radius:10px;
+    font-size:15px;
+    font-family:'Manrope', sans-serif;
+    background:#fff;
+    color:var(--ink);
+    transition:border-color .2s, box-shadow .2s;
+  }
 
-    .prize-code {
-      background: #fff;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-family: monospace;
-      font-size: 16px;
-      font-weight: bold;
-      color: var(--primary-color);
-      display: inline-block;
-      margin: 10px 0;
-      border: 1px solid #e0e0e0;
-    }
+  input[type="text"]:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,162,75,0.18);
+  }
 
-    .btn-whatsapp {
-      background-color: #25D366;
-      color: white;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      width: 100%;
-      margin-top: 15px;
-      box-sizing: border-box;
-    }
+  input[type="text"].invalid{
+    border-color:var(--danger);
+  }
 
-    .btn-whatsapp:hover {
-      background-color: #1ebc57;
-    }
+  .btn{
+    background:linear-gradient(135deg, var(--plum-800), var(--plum-950));
+    color:var(--gold-light);
+    border:1px solid rgba(201,162,75,0.4);
+    padding:14px;
+    width:100%;
+    border-radius:10px;
+    font-size:14.5px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  }
 
-    .error-msg {
-      color: #d9534f;
-      font-size: 13px;
-      margin-top: 5px;
-      display: none;
-    }
-  </style>
+  .btn:hover{ box-shadow:0 8px 20px -8px rgba(52,28,48,0.6); transform:translateY(-1px); }
+  .btn:active{ transform:translateY(0); }
+  .btn:disabled{ opacity:.5; cursor:not-allowed; transform:none; box-shadow:none; }
+
+  .error-msg{
+    color:var(--danger);
+    font-size:12.5px;
+    margin-top:7px;
+    display:none;
+    font-weight:600;
+  }
+
+  .hint{
+    font-size:11.5px;
+    color:#a99098;
+    margin-top:7px;
+  }
+
+  /* ---------- Scratch card section ---------- */
+  #scratch-section{ display:none; }
+
+  .scratch-wrap{
+    position:relative;
+    margin-top:6px;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid rgba(201,162,75,0.35);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+    background:linear-gradient(160deg, #fff, var(--blush));
+    aspect-ratio: 1 / 0.72;
+  }
+
+  .prize-layer{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    text-align:center;
+  }
+
+  .prize-kicker{
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-dark);
+    font-weight:700;
+    margin-bottom:8px;
+  }
+
+  .prize-title{
+    font-family:'Cormorant Garamond', serif;
+    font-size:23px;
+    font-weight:600;
+    color:var(--plum-900);
+    line-height:1.15;
+    margin-bottom:12px;
+  }
+
+  .prize-code{
+    background:#fff;
+    padding:8px 16px;
+    border-radius:8px;
+    font-family:'Courier New', monospace;
+    font-size:17px;
+    font-weight:700;
+    letter-spacing:.06em;
+    color:var(--plum-800);
+    border:1.5px dashed var(--gold);
+  }
+
+  canvas#scratchCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    touch-action:none;
+    cursor:pointer;
+  }
+
+  .scratch-instruction{
+    margin-top:12px;
+    font-size:12px;
+    color:#a99098;
+    letter-spacing:.03em;
+  }
+
+  /* ---------- Reveal section ---------- */
+  #result-section{ display:none; margin-top:20px; }
+
+  #result-section .headline{
+    font-family:'Cormorant Garamond', serif;
+    font-size:20px;
+    color:var(--plum-900);
+    margin-bottom:2px;
+  }
+
+  #result-section .prize-title{ margin-top:6px; }
+
+  .btn-whatsapp{
+    background:#25D366;
+    color:#fff;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:13px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:14px;
+    width:100%;
+    margin-top:16px;
+    box-sizing:border-box;
+    transition:transform .15s ease;
+  }
+  .btn-whatsapp:hover{ transform:translateY(-1px); }
+
+  .restart{
+    display:block;
+    margin-top:14px;
+    font-size:12px;
+    color:#a99098;
+    background:none;
+    border:none;
+    text-decoration:underline;
+    cursor:pointer;
+    width:100%;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Bella Maria</h1>
-    <p class="subtitle">Raspadinha de Prêmios Exclusiva</p>
+<div class="card">
+  <div class="eyebrow">Presente exclusivo</div>
+  <h1>Bella Maria</h1>
+  <p class="subtitle">Raspe e descubra o seu prêmio</p>
 
-    <div id="form-section">
-      <div class="input-group">
-        <label for="cpf">Digite seu CPF para participar:</label>
-        <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14">
-        <div id="error" class="error-msg">Este CPF já resgatou um prêmio!</div>
-      </div>
-      <button class="btn" onclick="playGame()">Revelar meu Prêmio!</button>
+  <div id="form-section">
+    <div class="input-group">
+      <label for="cpf">Seu CPF</label>
+      <input type="text" id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14">
+      <div id="error" class="error-msg"></div>
     </div>
-
-    <div id="result-section" class="card-box">
-      <div>🎉 Parabéns! Você ganhou:</div>
-      <div class="prize-title" id="prize-name"></div>
-      <div>Seu código de resgate é:</div>
-      <div class="prize-code" id="prize-code"></div>
-      
-      <a id="whatsapp-link" href="#" target="_blank" class="btn-whatsapp">
-        Compartilhar no WhatsApp
-      </a>
-    </div>
+    <button class="btn" id="startBtn" onclick="startGame()">Liberar minha raspadinha</button>
+    <div class="hint">Uma participação por CPF</div>
   </div>
 
-  <script>
-    // Prêmios e Probabilidades (Total = 100%)
-    const prizes = [
-      { name: "5% de desconto (Dinheiro ou Pix)", weight: 30 },
-      { name: "Brinco (até R$ 10)", weight: 30 },
-      { name: "10% de desconto (Roupas e vestuário)", weight: 20 },
-      { name: "20% de desconto (Roupas e acessórios acima de R$ 100)", weight: 10 },
-      { name: "3% de desconto (Perfumaria)", weight: 10 }
-    ];
+  <div id="scratch-section">
+    <div class="scratch-wrap" id="scratchWrap">
+      <div class="prize-layer">
+        <div class="prize-kicker">Você ganhou</div>
+        <div class="prize-title" id="prize-name-under"></div>
+        <div class="prize-code" id="prize-code-under"></div>
+      </div>
+      <canvas id="scratchCanvas"></canvas>
+    </div>
+    <div class="scratch-instruction">Passe o dedo ou o mouse para raspar ✦</div>
+  </div>
 
-    function getRandomPrize() {
-      let random = Math.random() * 100;
-      let sum = 0;
-      for (let i = 0; i < prizes.length; i++) {
-        sum += prizes[i].weight;
-        if (random <= sum) {
-          return prizes[i].name;
-        }
-      }
-      return prizes[0].name;
+  <div id="result-section">
+    <div class="headline">🎉 Parabéns!</div>
+    <div>Você ganhou:</div>
+    <div class="prize-title" id="prize-name"></div>
+    <div>Código de resgate:</div>
+    <div class="prize-code" id="prize-code"></div>
+
+    <a id="whatsapp-link" href="#" target="_blank" class="btn-whatsapp">
+      Compartilhar no WhatsApp
+    </a>
+    <button class="restart" onclick="resetGame()">Jogar com outro CPF</button>
+  </div>
+</div>
+
+<script>
+/* ---------------- Prize table (weights sum to 100) ---------------- */
+const prizes = [
+  { name: "5% de desconto (Dinheiro ou Pix)", weight: 30 },
+  { name: "Brinco (até R$ 10)", weight: 30 },
+  { name: "10% de desconto (Roupas e vestuário)", weight: 20 },
+  { name: "20% de desconto (Roupas e acessórios acima de R$ 100)", weight: 10 },
+  { name: "3% de desconto (Perfumaria)", weight: 10 }
+];
+
+function getRandomPrize() {
+  let random = Math.random() * 100;
+  let sum = 0;
+  for (let i = 0; i < prizes.length; i++) {
+    sum += prizes[i].weight;
+    if (random <= sum) return prizes[i].name;
+  }
+  return prizes[0].name;
+}
+
+function generateCode() {
+  return 'BM-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+}
+
+/* ---------------- CPF mask + validation ---------------- */
+const cpfInputEl = document.getElementById('cpf');
+const errorDiv = document.getElementById('error');
+
+cpfInputEl.addEventListener('input', () => {
+  let v = cpfInputEl.value.replace(/\D/g, '').slice(0, 11);
+  v = v.replace(/(\d{3})(\d)/, '$1.$2');
+  v = v.replace(/(\d{3})(\d)/, '$1.$2');
+  v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  cpfInputEl.value = v;
+  cpfInputEl.classList.remove('invalid');
+  errorDiv.style.display = 'none';
+});
+
+function isValidCpfFormat(cpf) {
+  const digits = cpf.replace(/\D/g, '');
+  if (digits.length !== 11) return false;
+  if (/^(\d)\1{10}$/.test(digits)) return false; // all same digit
+  return true;
+}
+
+function showError(msg) {
+  errorDiv.textContent = msg;
+  errorDiv.style.display = 'block';
+  cpfInputEl.classList.add('invalid');
+}
+
+/* ---------------- Flow control ---------------- */
+let currentPrize = null;
+let currentCode = null;
+
+function startGame() {
+  const cpf = cpfInputEl.value.trim();
+
+  if (!cpf) {
+    showError('Digite seu CPF para participar.');
+    return;
+  }
+  if (!isValidCpfFormat(cpf)) {
+    showError('CPF inválido. Confira os números digitados.');
+    return;
+  }
+
+  const usedCPFs = JSON.parse(localStorage.getItem('bella_maria_cpfs') || '[]');
+  if (usedCPFs.includes(cpf)) {
+    showError('Este CPF já resgatou um prêmio!');
+    return;
+  }
+
+  usedCPFs.push(cpf);
+  localStorage.setItem('bella_maria_cpfs', JSON.stringify(usedCPFs));
+
+  currentPrize = getRandomPrize();
+  currentCode = generateCode();
+
+  document.getElementById('prize-name-under').innerText = currentPrize;
+  document.getElementById('prize-code-under').innerText = currentCode;
+
+  document.getElementById('form-section').style.display = 'none';
+  document.getElementById('scratch-section').style.display = 'block';
+
+  initScratchCanvas();
+}
+
+function revealPrize() {
+  document.getElementById('prize-name').innerText = currentPrize;
+  document.getElementById('prize-code').innerText = currentCode;
+
+  const shareText = encodeURIComponent(`Ganhei "${currentPrize}" na Bella Maria! Meu código de resgate é: ${currentCode}`);
+  document.getElementById('whatsapp-link').href = `https://api.whatsapp.com/send?text=${shareText}`;
+
+  document.getElementById('scratch-section').style.display = 'none';
+  document.getElementById('result-section').style.display = 'block';
+}
+
+function resetGame() {
+  cpfInputEl.value = '';
+  currentPrize = null;
+  currentCode = null;
+  document.getElementById('result-section').style.display = 'none';
+  document.getElementById('form-section').style.display = 'block';
+}
+
+/* ---------------- Scratch canvas ---------------- */
+function initScratchCanvas() {
+  const canvas = document.getElementById('scratchCanvas');
+  const wrap = document.getElementById('scratchWrap');
+  const ctx = canvas.getContext('2d');
+
+  function sizeCanvas() {
+    const rect = wrap.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    drawFoil();
+  }
+
+  function drawFoil() {
+    const w = canvas.width, h = canvas.height;
+    const grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, '#e8cf8f');
+    grad.addColorStop(0.35, '#c9a24b');
+    grad.addColorStop(0.6, '#a9853a');
+    grad.addColorStop(1, '#c9a24b');
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+
+    // diagonal shimmer lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.lineWidth = Math.max(2, w * 0.01);
+    for (let x = -h; x < w; x += Math.max(14, w * 0.06)) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x + h, h);
+      ctx.stroke();
     }
 
-    function generateCode() {
-      return 'BM-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    }
+    // label
+    ctx.fillStyle = 'rgba(52,28,48,0.85)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = `700 ${Math.max(13, w * 0.045)}px Manrope, sans-serif`;
+    ctx.fillText('RASPE AQUI ✦', w / 2, h / 2 - h * 0.06);
+    ctx.font = `400 ${Math.max(10, w * 0.03)}px Manrope, sans-serif`;
+    ctx.fillText('Bella Maria', w / 2, h / 2 + h * 0.08);
+  }
 
-    function playGame() {
-      const cpfInput = document.getElementById('cpf').value.trim();
-      const errorDiv = document.getElementById('error');
+  sizeCanvas();
+  window.addEventListener('resize', sizeCanvas, { passive: true });
 
-      if (!cpfInput) {
-        alert("Por favor, digite seu CPF.");
-        return;
+  let scratching = false;
+  let revealed = false;
+  let lastCheck = 0;
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const point = e.touches ? e.touches[0] : e;
+    return {
+      x: (point.clientX - rect.left) * (canvas.width / rect.width),
+      y: (point.clientY - rect.top) * (canvas.height / rect.height)
+    };
+  }
+
+  function scratchAt(x, y) {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, Math.max(canvas.width * 0.07, 24), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function checkProgress() {
+    const now = Date.now();
+    if (now - lastCheck < 150) return;
+    lastCheck = now;
+
+    const sampleSize = 40;
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let cleared = 0;
+    let total = 0;
+    const step = Math.max(1, Math.floor(canvas.width / sampleSize));
+    for (let y = 0; y < canvas.height; y += step) {
+      for (let x = 0; x < canvas.width; x += step) {
+        const idx = (y * canvas.width + x) * 4 + 3;
+        total++;
+        if (data[idx] < 40) cleared++;
       }
-
-      // Validação de 1 participação por CPF
-      const usedCPFs = JSON.parse(localStorage.getItem('bella_maria_cpfs') || '[]');
-      if (usedCPFs.includes(cpfInput)) {
-        errorDiv.style.display = 'block';
-        return;
-      }
-
-      errorDiv.style.display = 'none';
-      usedCPFs.push(cpfInput);
-      localStorage.setItem('bella_maria_cpfs', JSON.stringify(usedCPFs));
-
-      // Sorteio do prêmio
-      const wonPrize = getRandomPrize();
-      const uniqueCode = generateCode();
-
-      // Atualizar interface com revelação animada
-      document.getElementById('form-section').style.display = 'none';
-      document.getElementById('prize-name').innerText = wonPrize;
-      document.getElementById('prize-code').innerText = uniqueCode;
-
-      // Configurar link do WhatsApp
-      const shareText = encodeURIComponent(`Ganhei "${wonPrize}" na Bella Maria! Meu código de resgate é: ${uniqueCode}`);
-      document.getElementById('whatsapp-link').href = `https://api.whatsapp.com/send?text=${shareText}`;
-
-      document.getElementById('result-section').style.display = 'block';
     }
-  </script>
+    if (total > 0 && cleared / total > 0.55 && !revealed) {
+      revealed = true;
+      finishReveal();
+    }
+  }
+
+  function finishReveal() {
+    canvas.style.transition = 'opacity .5s ease';
+    canvas.style.opacity = '0';
+    setTimeout(() => {
+      revealPrize();
+    }, 450);
+  }
+
+  function handleStart(e) {
+    e.preventDefault();
+    scratching = true;
+    const p = getPos(e);
+    scratchAt(p.x, p.y);
+  }
+  function handleMove(e) {
+    if (!scratching) return;
+    e.preventDefault();
+    const p = getPos(e);
+    scratchAt(p.x, p.y);
+    checkProgress();
+  }
+  function handleEnd() {
+    scratching = false;
+    checkProgress();
+  }
+
+  canvas.addEventListener('mousedown', handleStart);
+  canvas.addEventListener('mousemove', handleMove);
+  window.addEventListener('mouseup', handleEnd);
+  canvas.addEventListener('touchstart', handleStart, { passive: false });
+  canvas.addEventListener('touchmove', handleMove, { passive: false });
+  canvas.addEventListener('touchend', handleEnd);
+}
+</script>
 </body>
 </html>

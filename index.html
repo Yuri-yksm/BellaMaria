@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bella Maria - Raspadinha Virtual</title>
+  <style>
+    :root {
+      --primary-color: #d4a373;
+      --secondary-color: #fefae0;
+      --accent-color: #faedcd;
+      --text-color: #333;
+      --bg-color: #fff9f5;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      border: 1px solid #f3e9e1;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-size: 26px;
+      margin-bottom: 5px;
+      font-family: 'Georgia', serif;
+    }
+
+    p.subtitle {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      font-size: 13px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    .btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #bc8a5f;
+    }
+
+    .card-box {
+      margin-top: 20px;
+      padding: 20px;
+      background: var(--accent-color);
+      border-radius: 12px;
+      border: 2px dashed var(--primary-color);
+      display: none;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .prize-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #4a3e3d;
+      margin-bottom: 10px;
+    }
+
+    .prize-code {
+      background: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--primary-color);
+      display: inline-block;
+      margin: 10px 0;
+      border: 1px solid #e0e0e0;
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      width: 100%;
+      margin-top: 15px;
+      box-sizing: border-box;
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #1ebc57;
+    }
+
+    .error-msg {
+      color: #d9534f;
+      font-size: 13px;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Bella Maria</h1>
+    <p class="subtitle">Raspadinha de Prêmios Exclusiva</p>
+
+    <div id="form-section">
+      <div class="input-group">
+        <label for="cpf">Digite seu CPF para participar:</label>
+        <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14">
+        <div id="error" class="error-msg">Este CPF já resgatou um prêmio!</div>
+      </div>
+      <button class="btn" onclick="playGame()">Revelar meu Prêmio!</button>
+    </div>
+
+    <div id="result-section" class="card-box">
+      <div>🎉 Parabéns! Você ganhou:</div>
+      <div class="prize-title" id="prize-name"></div>
+      <div>Seu código de resgate é:</div>
+      <div class="prize-code" id="prize-code"></div>
+      
+      <a id="whatsapp-link" href="#" target="_blank" class="btn-whatsapp">
+        Compartilhar no WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Prêmios e Probabilidades (Total = 100%)
+    const prizes = [
+      { name: "5% de desconto (Dinheiro ou Pix)", weight: 30 },
+      { name: "Brinco (até R$ 10)", weight: 30 },
+      { name: "10% de desconto (Roupas e vestuário)", weight: 20 },
+      { name: "20% de desconto (Roupas e acessórios acima de R$ 100)", weight: 10 },
+      { name: "3% de desconto (Perfumaria)", weight: 10 }
+    ];
+
+    function getRandomPrize() {
+      let random = Math.random() * 100;
+      let sum = 0;
+      for (let i = 0; i < prizes.length; i++) {
+        sum += prizes[i].weight;
+        if (random <= sum) {
+          return prizes[i].name;
+        }
+      }
+      return prizes[0].name;
+    }
+
+    function generateCode() {
+      return 'BM-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    }
+
+    function playGame() {
+      const cpfInput = document.getElementById('cpf').value.trim();
+      const errorDiv = document.getElementById('error');
+
+      if (!cpfInput) {
+        alert("Por favor, digite seu CPF.");
+        return;
+      }
+
+      // Validação de 1 participação por CPF
+      const usedCPFs = JSON.parse(localStorage.getItem('bella_maria_cpfs') || '[]');
+      if (usedCPFs.includes(cpfInput)) {
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      errorDiv.style.display = 'none';
+      usedCPFs.push(cpfInput);
+      localStorage.setItem('bella_maria_cpfs', JSON.stringify(usedCPFs));
+
+      // Sorteio do prêmio
+      const wonPrize = getRandomPrize();
+      const uniqueCode = generateCode();
+
+      // Atualizar interface com revelação animada
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('prize-name').innerText = wonPrize;
+      document.getElementById('prize-code').innerText = uniqueCode;
+
+      // Configurar link do WhatsApp
+      const shareText = encodeURIComponent(`Ganhei "${wonPrize}" na Bella Maria! Meu código de resgate é: ${uniqueCode}`);
+      document.getElementById('whatsapp-link').href = `https://api.whatsapp.com/send?text=${shareText}`;
+
+      document.getElementById('result-section').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
